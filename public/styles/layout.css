@@ -1,0 +1,51 @@
+body {
+  text-align: center;
+}
+
+#game {
+  display: inline-block;
+
+  width: 800px;
+  height: 600px;
+  border: 1px solid black;
+}
+
+#chat {
+  display: inline-block;
+  position: relative;
+
+  width: 300px;
+  height: 600px;
+  border: 1px solid black;
+  vertical-align: top;
+  text-align: left;
+}
+
+#chat-box {
+  position: absolute;
+  bottom: 0px;
+}
+
+#chat-input {
+  margin: 3px;
+  margin-right: 0px;
+  width: 240px;
+}
+
+#chat-send {
+  margin: 0px;
+}
+
+#chat-log {
+  margin: 0px;
+  padding: 5px;
+  list-style-type: none;
+  height: 560px;
+  width: 285px;
+  overflow-y: scroll;
+  word-wrap: break-word;
+}
+
+.chat-user {
+  font-weight: bold
+}
