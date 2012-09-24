@@ -1,7 +1,5 @@
 var input, send, log, socket, username;
 
-username = prompt("Username");
-
 input = $("#chat-input");
 send  = $("#chat-send");
 log   = $("#chat-log");

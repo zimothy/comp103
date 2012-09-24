@@ -2,14 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title></title>
-    <link rel="stylesheet" href="/styles/layout.css"/>
+    <title>Testing</title>
+    <link rel="stylesheet" href="/styles/qunit.css"/>
+    <style>
+#chat {
+  display: none;
+}
+    </style>
+
     <script src="/scripts/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/scripts/game.js"></script>
   </head>
   <body>
-    <canvas id="game"></canvas>
     <section id="chat">
       <ol id="chat-log"></ol>
       <div id="chat-box">
@@ -17,5 +21,10 @@
         <button id="chat-send">Send</button>
       </div>
     </section>
+
+    <div id="qunit"></div>
+    <script src="/scripts/src/chat.js"></script>
+    <script src="/scripts/qunit.js"></script>
+    <script src="/scripts/test.js"></script>
   </body>
 </html>
