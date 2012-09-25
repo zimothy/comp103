@@ -1,5 +1,7 @@
 var input, send, log, socket, username;
 
+username = "Tim";
+
 input = $("#chat-input");
 send  = $("#chat-send");
 log   = $("#chat-log");
