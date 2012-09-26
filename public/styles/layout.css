@@ -46,6 +46,22 @@ body {
   word-wrap: break-word;
 }
 
+.chat-login {
+  color: green;
+}
+
+.chat-logout {
+  color: gray;
+}
+
+.chat-fail {
+  color: red;
+}
+
 .chat-user {
   font-weight: bold
+}
+
+.chat-reason {
+  font-style: italic;
 }

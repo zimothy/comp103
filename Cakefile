@@ -10,17 +10,15 @@ fullEscape = (str) ->
 
 combine = ->
   files = fs.readdirSync source
-  files = for file in files then fs.readFileSync "#{source}/#{file}"
+  files = for file in files
+    fs.readFileSync "#{source}/#{file}"
 
-  out = '$(function() {\n\n'
+  out = "$(function() {\n"
   for file in files
-    out += file
-
-  out + '\n});\n'
+    out += "(function() {\n#{file}})();\n"
+  "#{out}});\n"
 
 minify = (script, callback) ->
-  socket = fs.readFileSync "#{scripts}/socket.io.min.js"
-
   req = http.request
     host: 'closure-compiler.appspot.com'
     path: '/compile'
@@ -36,12 +34,8 @@ minify = (script, callback) ->
     console.log "Error: #{e}"
 
   req.write "js_code=#{fullEscape script}"
-  req.write "&compilation_level=ADVANCED_OPTIMIZATIONS"
   req.write "&output_format=text"
   req.write "&output_info=compiled_code"
-  req.write "&externs_url=" +
-            "https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"
-  req.write "&js_externs=#{fullEscape socket}"
 
   req.end()
 
@@ -54,6 +48,8 @@ task 'minify', 'build the JS source into a combined minified output', ->
     fs.write file, chunk
 
 task 'watch', 'perform the build action on source changes', ->
+  console.log "Watching #{source} for changes"
   fs.watch source, ->
+    console.log "Wrote game.js"
     fs.writeFileSync outFile, combine()  
   
