@@ -1,5 +1,6 @@
-var input, send, log, socket, username;
+var to, input, send, log, socket, username;
 
+to    = $("#chat-to");
 input = $("#chat-input");
 send  = $("#chat-send");
 log   = $("#chat-log");
@@ -14,15 +15,19 @@ if (!username) {
 socket = io.connect('/');
 
 socket.on('chat', function(data) {
-  addEntry(data.user, data.text);
+  addEntry(data.user, data.text, data.whisper);
 });
 
 socket.on('login', function(user) {
   addLogin(user);
+
+  to.append("<option value='" + user + "'>" + user + "</option>");
 });
 
 socket.on('logout', function(user) {
   addLogout(user);
+
+  to.find('[value=' + user + ']').remove();
 });
 
 socket.on('logged in', function(entries) {
@@ -63,27 +68,36 @@ socket.emit('login', {
 });
 
 function addLogin(user) {
-  user = span('chat-user', user);
-
   addItem('chat-login', function(item) {
-    item.append(user).append(" has logged in.");
-  })
+    item.append(span('chat-user', user)).append(" has logged in.");
+  });
+
+
 }
 
 function addLogout(user) {
-  user = span('chat-user', user);
-
   addItem('chat-logout', function(item) {
-    item.append(user).append(" has logged out.");
+    item.append(span('chat-user', user)).append(" has logged out.");
   });
 }
 
-function addEntry(user, text) {
-  user = span('chat-user', user);
+function addEntry(user, text, whisper) {
   text = span('chat-text', text);
 
+  if (whisper) {
+    text.addClass('chat-whisper');
+  }
+
   addItem('chat-entry', function(item) {
-    item.append(user).append(": ").append(text);
+    var last;
+
+    last = log.find(".chat-user").last();
+
+    if (last.parent().find(".chat-text").length !== 1 || last.text() !== user) {
+      item.append(span('chat-user', user)).append(": ")
+    }
+
+    item.append(text);
   });
 }
 
@@ -112,14 +126,18 @@ function scrollChat() {
 }
 
 function chat() {
-  var text;
+  var text, tov;
 
   text = input.val();
+  tov  = to.val();
 
   if (text.replace(/\s/g, '') !== "") {
-    addEntry(username, text);
+    addEntry(username, text, tov !== "#all");
     input.val("");
 
-    socket.emit('chat', text);
+    socket.emit('chat', {
+      to:   tov,
+      text: text
+    });
   }
 }

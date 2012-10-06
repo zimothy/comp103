@@ -26,10 +26,14 @@ body {
   bottom: 0px;
 }
 
+#chat-to {
+  width: 60px;
+}
+
 #chat-input {
   margin: 3px;
   margin-right: 0px;
-  width: 240px;
+  width: 180px;
 }
 
 #chat-send {
@@ -62,6 +66,6 @@ body {
   font-weight: bold
 }
 
-.chat-reason {
+.chat-reason, .chat-whisper {
   font-style: italic;
 }

@@ -11,7 +11,7 @@ html ->
     canvas id: 'game'
     section id: 'chat', ->
       ol id: 'chat-log', ->
-        for entry in @chat.log
+        for entry in @chat
           className = switch entry.type
             when 'login'
               "chat-login"
@@ -29,5 +29,9 @@ html ->
               when 'logout'
                 text " has logged out."
       div id: 'chat-box', ->
+        select id: 'chat-to', ->
+          option value: '#all', selected: 'selected', "All"
+          for user in @users
+            option value: user, user
         input id: 'chat-input', disabled: 'disabled'
         button id: 'chat-send', "Send"

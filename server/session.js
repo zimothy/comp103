@@ -1,17 +1,15 @@
 // Represents a session of a game.
 function Session() {
-  this.chat = new Chat();
+  this.chat = [];
+  this.users = [];
 }
 
-function Chat() {
-  this.log = [];
-}
-
-Chat.prototype = {
+Session.prototype = {
 
   // Adds a record of a user login.
   addLogin: function(user) {
-    this.log.push({
+    this.users.push(user);
+    this.chat.push({
       type: 'login',
       user: user
     });
@@ -19,7 +17,7 @@ Chat.prototype = {
 
   // Adds a record of a user chatting.
   addText: function(user, text) {
-    this.log.push({
+    this.chat.push({
       type: 'text',
       user: user,
       text: text
@@ -28,7 +26,8 @@ Chat.prototype = {
 
   // Adds a record of a user logging out.
   addLogout: function(user) {
-    this.log.push({
+    this.users.splice(this.users.indexOf(user), 1);
+    this.chat.push({
       type: 'logout',
       user: user
     });

@@ -48,7 +48,7 @@ function makeTest(func) {
   };
 }
 
-test("Chat entry", makeTest(adEntry));
+test("Chat entry", makeTest(addEntry));
 
 test("User login", makeTest(addLogin));
 

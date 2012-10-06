@@ -21,7 +21,12 @@ exports.listen = function(server, session) {
       var user, entries;
 
       user    = data.user;
-      entries = session.chat.log.slice(data.count);
+      entries = session.chat.slice(data.count);
+
+      if (user.charAt(0) === "#") {
+        socket.emit('failed login', "Invalid username");
+        return;
+      }
 
       if (_.has(chatters, user)) {
         socket.emit('failed login', "Username taken");
@@ -31,7 +36,7 @@ exports.listen = function(server, session) {
       // Can't login twice.
       socket.removeListener('login', login);
 
-      session.chat.addLogin(user);
+      session.addLogin(user);
 
       eachChatter(function(chatter) {
         chatter.emit('login', user);
@@ -40,26 +45,40 @@ exports.listen = function(server, session) {
       // Record the chatter.
       chatters[user] = socket;
 
-      socket.on('chat', function(text) {
-        // Log the chat in the session.
-        session.chat.addText(user, text);
+      socket.on('chat', function(data) {
+        var to, text;
 
-        // Bounce the chat message to all other chatters.
-        eachChatter(function(chatter) {
-          if (chatter !== socket) {
-            chatter.emit('chat', {
-              user: user,
-              text: text
-            })
-          }
-        });
+        to   = data.to;
+        text = data.text;
+
+        // Log the chat in the session.
+        session.addText(user, text);
+
+        if (to === "#all") {
+          // Bounce the chat message to all other chatters.
+          eachChatter(function(chatter) {
+            if (chatter !== socket) {
+              chatter.emit('chat', {
+                user:    user,
+                text:    text,
+                whisper: false
+              })
+            }
+          });
+        } else if (chatters[to]) {
+          chatters[to].emit('chat', {
+            user:    user,
+            text:    text,
+            whisper: true
+          });
+        }
       });
 
       socket.on('disconnect', function() {
         // Remove the chatter.
         delete chatters[user];
 
-        session.chat.addLogout(user);
+        session.addLogout(user);
 
         eachChatter(function(chatter) {
           chatter.emit('logout', user);
