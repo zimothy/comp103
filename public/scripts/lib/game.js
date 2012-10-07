@@ -1,3 +1,5 @@
+$(function() {
+(function() {
 var to, input, send, log, socket, username;
 
 to    = $("#chat-to");
@@ -150,3 +152,5 @@ function chat() {
     });
   }
 }
+})();
+});

@@ -31,6 +31,14 @@ Session.prototype = {
       type: 'logout',
       user: user
     });
+  },
+
+  // Adds a game announcement.
+  addAnnouncement: function(text) {
+    this.chat.push({
+      type: 'accouncement',
+      text: text
+    });
   }
   
 };

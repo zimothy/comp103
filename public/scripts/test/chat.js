@@ -1,9 +1,10 @@
-var log, userClass, textClass;
+var log, userClass, textClass, announcementClass;
 
 log = $("#chat-log");
 
 userClass = ".chat-user";
 textClass = ".chat-text";
+announcementClass = ".chat-announcement";
 
 // Creates a random string of ASCII characters of length between 1 and 20.
 function makeRandomAsciiString() {
@@ -21,35 +22,37 @@ function makeRandomAsciiString() {
 
 // Creates a test that tries 200 different random string combinations.
 // Takes a parameter on whether it should test for chat text as well as user.
-function makeTest(func) {
-  var testText = func.length > 1;
-
+function makeTest(func, firstClass, secondClass) {
   return function() {
     _.times(200, function() {
-      var user, text, entry;
+      var first, second, entry;
 
       log.children().remove();
 
-      user = makeRandomAsciiString();
-      if (testText) {
-        text = makeRandomAsciiString();
+      first = makeRandomAsciiString();
+      if (secondClass) {
+        second = makeRandomAsciiString();
       }
 
-      func(user, text);
+      func(first, second);
       entry = log.children();
 
       strictEqual(entry.length, 1, "One entry added");
-      strictEqual(entry.find(userClass).text(), user, "Correct user: " + user);
+      strictEqual(entry.find(firstClass).text(), first,
+        "First class: " + first);
 
-      if (testText) {
-        strictEqual(entry.find(textClass).text(), text, "Correct text:" + text);
+      if (secondClass) {
+        strictEqual(entry.find(secondClass).text(), second,
+          "Second class:" + second);
       }
     });
   };
 }
 
-test("Chat entry", makeTest(addEntry));
+test("Chat entry", makeTest(addEntry, userClass, textClass));
 
-test("User login", makeTest(addLogin));
+test("User login", makeTest(addLogin, userClass));
 
-test("User logout", makeTest(addLogout));
+test("User logout", makeTest(addLogout, userClass));
+
+test("Announcement", makeTest(addAnnouncement, announcementClass));

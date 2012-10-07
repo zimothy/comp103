@@ -63,9 +63,13 @@ body {
 }
 
 .chat-user {
-  font-weight: bold
+  font-weight: bold;
 }
 
 .chat-reason, .chat-whisper {
   font-style: italic;
+}
+
+.chat-announcement {
+  font-weight: bold;
 }

@@ -4,9 +4,10 @@ html ->
     meta charset: 'utf-8'
     title "Game"
     link rel: 'stylesheet', href: '/styles/layout.css'
-    script src: '/scripts/jquery.min.js'
+    script src: '/scripts/lib/jquery-1.8.2.min.js'
+    script src: '/scripts/lib/underscore-1.4.2.min.js'
     script src: '/socket.io/socket.io.js'
-    script src: '/scripts/game.js'
+    script src: '/scripts/lib/game.js'
   body ->
     canvas id: 'game'
     section id: 'chat', ->

@@ -3,7 +3,7 @@ http = require 'http'
 
 scripts = "public/scripts"
 source  = "#{scripts}/src"
-outFile = "#{scripts}/game.js"
+outFile = "#{scripts}/lib/game.js"
 
 fullEscape = (str) ->
   escape(str).replace /\+/g, '%2B'
