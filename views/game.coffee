@@ -9,7 +9,7 @@ html ->
     script src: '/socket.io/socket.io.js'
     script src: '/scripts/lib/game.js'
   body ->
-    canvas id: 'game'
+    canvas id: 'game', width: '800px', height: '600px'
     section id: 'chat', ->
       ol id: 'chat-log', ->
         for entry in @chat

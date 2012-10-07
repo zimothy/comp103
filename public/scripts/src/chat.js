@@ -7,7 +7,7 @@ log   = $("#chat-log");
 
 scrollChat();
 
-username = prompt('Username:');
+username = "tim";
 if (!username) {
   return;
 }
