@@ -1,22 +1,23 @@
 var canvas;
 
-canvas = $('#game')[0].getContext('2d');
+canvas = $("#game")[0].getContext('2d');
 
-function drawHexagon(size, colour) {
+function drawHexagon(tile, sideLength, edgeWidth) {
   canvas.save();
 
   canvas.strokeStyle = "#000000";
-  canvas.fillStyle = colour;
+  canvas.lineWidth = edgeWidth;
+  canvas.fillStyle = tile.color;
   canvas.lineJoin = "round";
 
   canvas.rotate(Math.PI / 6);
 
   canvas.beginPath();
-  canvas.moveTo(size, 0);
+  canvas.moveTo(sideLength, 0);
 
-  _.times(6, function() {
+  _.times(5, function() {
     canvas.rotate(Math.PI / 3);
-    canvas.lineTo(size, 0);
+    canvas.lineTo(sideLength, 0);
   });
   
   canvas.closePath();
@@ -26,39 +27,49 @@ function drawHexagon(size, colour) {
   canvas.restore();
 }
 
-function drawGrid(width, height, size) {
-  var dist, shift;
+// Draws a full grid of tiles.
+//
+// Because a tile links to every other one in the grid, the starting tile is all
+// that is needed to navigate the full tileset.
+//
+// Each tile will be drawn with its full width as the given argument. The tile
+// itself is a regular hexagon.
+function drawTileGrid(startingTile, tileWidth, edgeWidth) {
+  var columnTile, rowTile, toEast, tileHeight, mod, dx, dy;
 
-  dist = size * 2 * Math.sin(Math.PI / 3);
-  forward = true;
+  canvas.save();
+  tileHeight = tileWidth / Math.sin(Math.PI / 3);
+
+  toEast = true;
+  columnTile = startingTile;
 
   canvas.save();
 
-  _.times(height + 2, function(i) {
+  while (typeof columnTile !== "undefined") {
+    rowTile = columnTile;
 
     canvas.save();
 
-    _.times(width + 2, function(j) {
-      var colour;
+    do {
+      drawHexagon(rowTile, tileHeight / 2, edgeWidth);
 
-      if (i == 0 || i == height + 1 || j == 0 || j == width + 1) {
-        colour = "#000000";
-      } else {
-        colour = "#00FF00";
-      }
-
-      drawHexagon(size, colour);
-      canvas.translate(dist, 0);
-    });
+      canvas.translate(tileWidth + edgeWidth / 2, 0);
+      rowTile = rowTile.east;
+    } while (rowTile !== columnTile);
 
     canvas.restore();
 
-    canvas.translate(dist / 2 * (forward ? 1 : -1), size * 1.5);
-    forward = !forward;
-  });
+    mod = toEast ? 1 : -1;
+    dx = mod * tileWidth / 2 + mod * edgeWidth / 4;
+    dy = tileHeight * 0.75 + edgeWidth / 2;
+    canvas.translate(dx, dy);
 
+    columnTile = columnTile['south' + (toEast ? 'East' : 'West')];
+    toEast = !toEast;
+  }
+
+  canvas.restore();
   canvas.restore();
 }
 
-canvas.translate(-35, 0);
-drawGrid(9, 7, 48);
+exports.drawTileGrid = drawTileGrid;

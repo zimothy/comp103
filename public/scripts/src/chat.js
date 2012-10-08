@@ -73,8 +73,6 @@ function addLogin(user) {
   addItem('chat-login', function(item) {
     item.append(span('chat-user', user)).append(" has logged in.");
   });
-
-
 }
 
 function addLogout(user) {

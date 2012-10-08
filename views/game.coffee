@@ -8,6 +8,8 @@ html ->
     script src: '/scripts/lib/underscore-1.4.2.min.js'
     script src: '/socket.io/socket.io.js'
     script src: '/scripts/lib/game.js'
+    script id: 'map', type: 'application/json', ->
+      text JSON.stringify @_.map @map, (tile) -> tile.toJSON()
   body ->
     canvas id: 'game', width: '800px', height: '600px'
     section id: 'chat', ->
