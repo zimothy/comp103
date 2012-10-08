@@ -16,11 +16,12 @@ Session.prototype = {
   },
 
   // Adds a record of a user chatting.
-  addText: function(user, text) {
+  addText: function(user, text, to) {
     this.chat.push({
-      type: 'text',
-      user: user,
-      text: text
+      type:    'text',
+      user:    user,
+      text:    text,
+      whisper: to
     });
   },
 

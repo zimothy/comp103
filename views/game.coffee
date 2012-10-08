@@ -25,7 +25,11 @@ html ->
               when 'login'
                 text " has logged in."
               when 'text'
-                text ": #{entry.text}"
+                text ": "
+                if entry.whisper
+                  span class: 'chat-text chat-whisper', "#{entry.text}"
+                else
+                  span class: 'chat-text', "#{entry.text}"
               when 'logout'
                 text " has logged out."
       div id: 'chat-box', ->

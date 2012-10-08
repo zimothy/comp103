@@ -52,7 +52,7 @@ exports.listen = function(server, session) {
         text = data.text;
 
         // Log the chat in the session.
-        session.addText(user, text);
+        session.addText(user, text, to === "#all" ? null : to);
 
         if (to === "#all") {
           // Bounce the chat message to all other chatters.
