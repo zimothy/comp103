@@ -4,10 +4,9 @@ body {
 
 #game {
   display: inline-block;
-
-  width: 800px;
-  height: 600px;
+  background-color: black;
   border: 1px solid black;
+  cursor: default;
 }
 
 #chat {
@@ -63,9 +62,13 @@ body {
 }
 
 .chat-user {
-  font-weight: bold
+  font-weight: bold;
 }
 
 .chat-reason, .chat-whisper {
   font-style: italic;
+}
+
+.chat-announcement {
+  font-weight: bold;
 }

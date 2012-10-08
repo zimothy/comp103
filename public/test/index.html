@@ -10,14 +10,17 @@
 }
     </style>
 
-    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/lib/jquery-1.8.2.min.js"></script>
+    <script src="/scripts/lib/underscore-1.4.2.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/scripts/underscore.min.js"></script>
   </head>
   <body>
     <section id="chat">
       <ol id="chat-log"></ol>
       <div id="chat-box">
+        <select id="chat-to">
+          <option value="#all" selected="selected">All</option>
+        </select>
         <input id="chat-input"/>
         <button id="chat-send">Send</button>
       </div>
@@ -25,7 +28,7 @@
 
     <div id="qunit"></div>
     <script src="/scripts/src/chat.js"></script>
-    <script src="/scripts/qunit.js"></script>
-    <script src="/scripts/test.js"></script>
+    <script src="/scripts/lib/qunit-1.10.0.js"></script>
+    <script src="/scripts/test/chat.js"></script>
   </body>
 </html>

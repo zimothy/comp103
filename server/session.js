@@ -1,7 +1,14 @@
+var map, _;
+
+map = require('./map');
+_ = require('underscore');
+
 // Represents a session of a game.
 function Session() {
   this.chat = [];
   this.users = [];
+  this.map = map.makeMap(20, 20);
+  this._ = _;
 }
 
 Session.prototype = {
@@ -31,6 +38,14 @@ Session.prototype = {
     this.chat.push({
       type: 'logout',
       user: user
+    });
+  },
+
+  // Adds a game announcement.
+  addAnnouncement: function(text) {
+    this.chat.push({
+      type: 'accouncement',
+      text: text
     });
   }
   

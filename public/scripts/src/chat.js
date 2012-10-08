@@ -7,7 +7,7 @@ log   = $("#chat-log");
 
 scrollChat();
 
-username = prompt('Username:');
+username = "tim";
 if (!username) {
   return;
 }
@@ -29,6 +29,8 @@ socket.on('logout', function(user) {
 
   to.find('[value=' + user + ']').remove();
 });
+
+socket.on('announcement', addAnnouncement);
 
 socket.on('logged in', function(entries) {
   $.each(entries, function(i, entry) {
@@ -71,8 +73,6 @@ function addLogin(user) {
   addItem('chat-login', function(item) {
     item.append(span('chat-user', user)).append(" has logged in.");
   });
-
-
 }
 
 function addLogout(user) {
@@ -91,13 +91,20 @@ function addEntry(user, text, whisper) {
   addItem('chat-entry', function(item) {
     var last;
 
-    last = log.find(".chat-user").last();
+    last = log.children().last();
 
-    if (last.parent().find(".chat-text").length !== 1 || last.text() !== user) {
-      item.append(span('chat-user', user)).append(": ")
+    if (!last.hasClass('chat-entry') ||
+        last.find('.chat-user').text() !== user) {
+      item.append(span('chat-user', user)).append(": ");
     }
 
     item.append(text);
+  });
+}
+
+function addAnnouncement(text) {
+  addItem('chat-announcement', function(item) {
+    item.append(span('chat-announcement', text));
   });
 }
 

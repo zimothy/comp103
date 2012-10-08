@@ -3,7 +3,7 @@ http = require 'http'
 
 scripts = "public/scripts"
 source  = "#{scripts}/src"
-outFile = "#{scripts}/game.js"
+outFile = "#{scripts}/lib/game.js"
 
 fullEscape = (str) ->
   escape(str).replace /\+/g, '%2B'
@@ -11,12 +11,18 @@ fullEscape = (str) ->
 combine = ->
   files = fs.readdirSync source
   files = for file in files
-    fs.readFileSync "#{source}/#{file}"
+    content = new String fs.readFileSync "#{source}/#{file}"
+    content.name = file.substring(0, file.length - 3);
+    content
 
-  out = "$(function() {\n"
+  out = "$(function() {\nvar modules = {};\n"
   for file in files
-    out += "(function() {\n#{file}})();\n"
-  "#{out}});\n"
+    out += "(function(exports) {\n#{file}})(modules.#{file.name} = {});\n"
+  
+  out += "_.each(_.values(modules), function(m) { "
+  out += "if (typeof m.main === 'function') m.main(); });\n"
+
+  "#{out}window.game = modules;\n});\n"
 
 minify = (script, callback) ->
   req = http.request
