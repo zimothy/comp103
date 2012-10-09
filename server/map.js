@@ -80,25 +80,32 @@ function makeMap(rows, cols) {
 
 
 function Tile(id) {
+  var passable;
+
   this.id = id;
-  this.color = Math.random() > 0.1 ? "#00FF00" : "#0000FF";
+
+  passable = Math.random() > 0.1;
+  this.passable = passable;
+  this.units = passable ? Math.floor(Math.random() * 5) : 0;
+  this.castle = passable && Math.random() < 0.01;
 }
 
 Tile.prototype = {
 
   toJSON: function() {
-    var json;
+    var json, key;
 
-    json = {
-      id: this.id,
-      color: this.color
-    };
+    json = {};
 
-    _.each(directions, function(direction) {
-      if (this[direction]) {
-        json[direction] = this[direction].id;
+    for (key in this) {
+      if (this.hasOwnProperty(key)) {
+        if (directions.indexOf(key) > -1) {
+          json[key] = this[key].id;
+        } else {
+          json[key] = this[key];
+        }
       }
-    }, this);
+    }
 
     return json;
   }

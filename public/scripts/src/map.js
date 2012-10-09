@@ -21,6 +21,8 @@ _.each(tiles, function(tile) {
   });
 });
 
+tiles[0].selected = true;
+
 exports.main = function() {
   var drawTileGrid, tileWidth, tileHeight, edgeWidth, edgeLength, offsetY,
       columnCount, columnTile, gridWidth, gridHeight, mouseDown, x, y, tx, ty;
@@ -111,7 +113,7 @@ exports.main = function() {
     canvas.restore();
   }
 
-  setTileWidth(75);
+  setTileWidth(50);
   drawGrid();
 
   $("#game").mousedown(function(evt) {

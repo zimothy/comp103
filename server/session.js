@@ -7,7 +7,7 @@ _ = require('underscore');
 function Session() {
   this.chat = [];
   this.users = [];
-  this.map = map.makeMap(20, 20);
+  this.map = map.makeMap(10, 10);
   this._ = _;
 }
 

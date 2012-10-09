@@ -5,9 +5,9 @@ canvas = $("#game")[0].getContext('2d');
 function drawHexagon(tile, sideLength, edgeWidth) {
   canvas.save();
 
-  canvas.strokeStyle = "#000000";
+  canvas.strokeStyle = tile.selected ? "red" : "#000000";
   canvas.lineWidth = edgeWidth;
-  canvas.fillStyle = tile.color;
+  canvas.fillStyle = tile.passable ? (tile.castle ? "gray" : "#00FF00") : "#00AAFF";
   canvas.lineJoin = "round";
 
   canvas.rotate(Math.PI / 6);
@@ -25,6 +25,16 @@ function drawHexagon(tile, sideLength, edgeWidth) {
   canvas.fill();
 
   canvas.restore();
+
+  if (tile.units > 0) {
+    canvas.save();
+    canvas.lineWidth = 1;
+    canvas.fillStyle = "#000000";
+    canvas.font = (sideLength / 2) + "pt Helvetica";
+    var text = tile.units.toString();
+    canvas.fillText(text, -canvas.measureText(text).width / 2, 5);
+    canvas.restore();
+  }
 }
 
 // Draws a full grid of tiles.
