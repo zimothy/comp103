@@ -171,21 +171,19 @@ exports.main = function() {
     }
   });
 
-  if (game.onmousewheel) {
-    game.onmousewheel = function(evt) {
-      var newTileWidth;
+  game.onmousewheel = function(evt) {
+    var newTileWidth;
 
-      newTileWidth = tileWidth + evt.wheelDeltaY / 10;
+    newTileWidth = tileWidth + evt.wheelDeltaY / 10;
+    
+    if (newTileWidth < 30) {
+      newTileWidth = 30;
+    } else if (newTileWidth > 100) {
+      newTileWidth = 100;
+    }
 
-      if (newTileWidth < 30) {
-        newTileWidth = 30;
-      } else if (newTileWidth > 100) {
-        newTileWidth = 100;
-      }
-
-      setTileWidth(newTileWidth);
-      reposition(x, y);
-      drawGrid();
-    };
-  }
+    setTileWidth(newTileWidth);
+    reposition(x, y);
+    drawGrid();
+  };
 };

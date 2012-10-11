@@ -3,9 +3,11 @@ var canvas;
 canvas = $("#game")[0].getContext('2d');
 
 function drawHexagon(tile, sideLength, edgeWidth) {
+  var text, fontSize;
+
   canvas.save();
 
-  canvas.strokeStyle = tile.selected ? "red" : "#000000";
+  canvas.strokeStyle = "#000000";
   canvas.lineWidth = edgeWidth;
   canvas.fillStyle = tile.passable ? (tile.castle ? "gray" : "#00FF00") : "#00AAFF";
   canvas.lineJoin = "round";
@@ -30,9 +32,10 @@ function drawHexagon(tile, sideLength, edgeWidth) {
     canvas.save();
     canvas.lineWidth = 1;
     canvas.fillStyle = "#000000";
-    canvas.font = (sideLength / 2) + "pt Helvetica";
-    var text = tile.units.toString();
-    canvas.fillText(text, -canvas.measureText(text).width / 2, 5);
+    fontSize = sideLength / 2;
+    canvas.font = fontSize + "pt Helvetica";
+    text = tile.units.toString();
+    canvas.fillText(text, -canvas.measureText(text).width / 2, fontSize / 2);
     canvas.restore();
   }
 }
